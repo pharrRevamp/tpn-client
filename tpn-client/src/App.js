@@ -5,7 +5,9 @@ import SearchBar from "./components/SearchBar";
 import DataTable from "./components/DataTable";
 import { useSelector } from "react-redux";
 function App() {
-  const uploadStatus = useSelector(state => state.updatedInfo.updatedStatus);
+  const uploadStatus = useSelector(
+    state => state.updatedInfo.loadStatus.updatedStatus
+  );
   console.log(uploadStatus);
   useEffect(() => {
     if (uploadStatus === "Loaded") {
