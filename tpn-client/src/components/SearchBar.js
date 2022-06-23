@@ -82,7 +82,7 @@ function SearchBar() {
                 ? `(xxx) xxx-xxxx`
                 : optionType === "email"
                 ? `example@example.com`
-                : "Click Search Please..."
+                : "Street Name..."
             }
             value={optionInputMem}
             onChange={e => dispatch(optionInput(e.target.value))}
