@@ -4,6 +4,7 @@ import axios from "axios";
 const customerURLEmails = process.env.REACT_APP_EMAIL;
 const customerURLPhones = process.env.REACT_APP_PHONE;
 const customerURLNames = process.env.REACT_APP_NAME;
+const customerURLStreets = process.env.REACT_APP_CUSTOMER_STREET;
 
 export const customerEmailData = createAsyncThunk(
   "user/customerEmail",
@@ -33,18 +34,27 @@ export const customerNameData = createAsyncThunk(
     return data;
   }
 );
-
+export const customerStreetData = createAsyncThunk(
+  "user/customerStreet",
+  async customerStreet => {
+    const { data } = await axios.post(`${customerURLStreets}`, {
+      data: customerStreet,
+    });
+    return data;
+  }
+);
 const customerMemory = createSlice({
   name: "customers data",
   initialState: {
     loadStatus: {
-      emailStatus: "",
-      phoneStatus: "",
-      nameStatus: "",
+      emailStatus: "Idle",
+      phoneStatus: "Idle",
+      nameStatus: "Idle",
+      StreetStatus: "Idle",
     },
     data: [],
     optionInputData: "",
-    optionType: "list",
+    optionType: "street",
   },
   reducers: {
     optionInput: (state, action) => {
@@ -54,7 +64,7 @@ const customerMemory = createSlice({
       state.optionType = action.payload;
     },
     resetHandler: state => {
-      state.optionInputData = [];
+      state.optionInputData = "";
     },
     editDataHandler: (state, action) => {
       const obj = action.payload;
@@ -103,6 +113,19 @@ const customerMemory = createSlice({
     },
     [customerNameData.rejected]: state => {
       state.loadStatus.nameStatus = "Failed";
+      state.data = [];
+    },
+
+    [customerStreetData.pending]: state => {
+      state.loadStatus.StreetStatus = "Loading";
+      state.data = [];
+    },
+    [customerStreetData.fulfilled]: (state, action) => {
+      state.loadStatus.StreetStatus = "Loaded";
+      state.data = action.payload;
+    },
+    [customerStreetData.rejected]: state => {
+      state.loadStatus.StreetStatus = "Failed";
       state.data = [];
     },
   },

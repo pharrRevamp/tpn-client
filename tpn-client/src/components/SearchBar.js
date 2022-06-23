@@ -4,6 +4,7 @@ import {
   customerEmailData,
   customerNameData,
   customerPhoneData,
+  customerStreetData,
   optionInput,
   optionTypeHandler,
   resetHandler,
@@ -19,31 +20,36 @@ function SearchBar() {
     if (optionInputMem.firstname || optionInputMem.lastname) {
       dispatch(resetHandler());
     }
+    dispatch(resetHandler());
     dispatch(optionTypeHandler(e.target.value));
   }
 
   function searchHandler(e) {
     e.preventDefault();
     switch (optionType) {
-      case "list":
-        console.log(`we got list`);
+      case "street":
+        dispatch(customerStreetData(optionInputMem));
+
         break;
       case "name":
         dispatch(customerNameData(optionInputMem));
+
         break;
       case "phone":
         dispatch(customerPhoneData(optionInputMem));
+
         break;
       case "email":
         dispatch(customerEmailData(optionInputMem));
+
         break;
       default:
-        alert(`We have into an Error`);
+        alert(`We have run into an Error`);
     }
   }
 
   return (
-    <div className="SearchBar">
+    <div className="SearchBar" style={{ padding: "20px 0px" }}>
       <form action="" onSubmit={searchHandler}>
         {optionType === "name" ? (
           <span>
@@ -83,10 +89,18 @@ function SearchBar() {
           />
         )}
         <select name="Field" id="Field" onChange={selectHandler}>
-          <option value="list">Full List</option>
-          <option value="name">Name</option>
-          <option value="phone">Phone</option>
-          <option value="email">Email</option>
+          <option value="street" stlye={{ padding: "3px" }}>
+            Street Name
+          </option>
+          <option value="name" stlye={{ padding: "3px" }}>
+            Name
+          </option>
+          <option value="phone" stlye={{ padding: "3px" }}>
+            Phone
+          </option>
+          <option value="email" stlye={{ padding: "3px" }}>
+            Email
+          </option>
         </select>
         <button onClick={searchHandler}>Search</button>
       </form>

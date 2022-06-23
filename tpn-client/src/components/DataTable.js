@@ -13,7 +13,7 @@ function DataTable() {
     dispatch(customerUpdateData(data));
   }
   return (
-    <div className="DataTable">
+    <div className="DataTable" style={{ padding: "4%" }}>
       <Table
         dataSource={[...data]}
         scroll={{ x: 6500 }}
@@ -675,6 +675,7 @@ function DataTable() {
             return (
               <textarea
                 style={{ width: "100%", borderStyle: "none" }}
+                maxLength="1028"
                 value={data[index]["Notes"]}
                 onChange={e =>
                   dispatch(
