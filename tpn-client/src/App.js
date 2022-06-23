@@ -12,6 +12,10 @@ function App() {
   useEffect(() => {
     if (uploadStatus === "Loaded") {
       alert("Your data has successfully been uploaded!");
+    } else if (uploadStatus === "Failed") {
+      alert(
+        "Your data has Failed been uploaded! Please Refine your search or contact Michael Trevino ext: 4912"
+      );
     }
   }, [uploadStatus]);
   return (
