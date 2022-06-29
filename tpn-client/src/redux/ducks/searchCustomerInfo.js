@@ -5,6 +5,26 @@ const customerURLEmails = process.env.REACT_APP_EMAIL;
 const customerURLPhones = process.env.REACT_APP_PHONE;
 const customerURLNames = process.env.REACT_APP_NAME;
 const customerURLStreets = process.env.REACT_APP_CUSTOMER_STREET;
+const customerURLPon = process.env.REACT_APP_PON;
+const customerURLAcctNum = process.env.REACT_APP_ACCTNUM;
+export const customerAccNumData = createAsyncThunk(
+  "user/customerAccNum",
+  async customerAccNum => {
+    const { data } = await axios.post(`${customerURLAcctNum}`, {
+      data: customerAccNum,
+    });
+    return data;
+  }
+);
+export const customerPonData = createAsyncThunk(
+  "user/customerPon",
+  async customerPon => {
+    const { data } = await axios.post(`${customerURLPon}`, {
+      data: customerPon,
+    });
+    return data;
+  }
+);
 
 export const customerEmailData = createAsyncThunk(
   "user/customerEmail",
@@ -51,6 +71,8 @@ const customerMemory = createSlice({
       phoneStatus: "Idle",
       nameStatus: "Idle",
       StreetStatus: "Idle",
+      ponStatus: "Idle",
+      accountNumberStatus: "Idle",
     },
     data: [],
     optionInputData: "",
@@ -79,6 +101,30 @@ const customerMemory = createSlice({
     },
   },
   extraReducers: {
+    [customerAccNumData.pending]: state => {
+      state.loadStatus.accountNumberStatus = "Loading";
+      state.data = [];
+    },
+    [customerAccNumData.fulfilled]: (state, action) => {
+      state.loadStatus.accountNumberStatus = "Loaded";
+      state.data = action.payload;
+    },
+    [customerAccNumData.rejected]: state => {
+      state.loadStatus.accountNumberStatus = "Failed";
+      state.data = [];
+    },
+    [customerPonData.pending]: state => {
+      state.loadStatus.ponStatus = "Loading";
+      state.data = [];
+    },
+    [customerPonData.fulfilled]: (state, action) => {
+      state.loadStatus.ponStatus = "Loaded";
+      state.data = action.payload;
+    },
+    [customerPonData.rejected]: state => {
+      state.loadStatus.ponStatus = "Failed";
+      state.data = [];
+    },
     [customerEmailData.pending]: state => {
       state.loadStatus.emailStatus = "Loading";
       state.data = [];

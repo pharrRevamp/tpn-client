@@ -1,9 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  customerAccNumData,
   customerEmailData,
   customerNameData,
   customerPhoneData,
+  customerPonData,
   customerStreetData,
   optionInput,
   optionTypeHandler,
@@ -15,7 +17,7 @@ function SearchBar() {
   const optionInputMem = useSelector(
     state => state.customerInfo.optionInputData
   );
-
+  const records = useSelector(state => state.customerInfo.data);
   function selectHandler(e) {
     if (optionInputMem.firstname || optionInputMem.lastname) {
       dispatch(resetHandler());
@@ -29,19 +31,21 @@ function SearchBar() {
     switch (optionType) {
       case "street":
         dispatch(customerStreetData(optionInputMem));
-
         break;
       case "name":
         dispatch(customerNameData(optionInputMem));
-
         break;
       case "phone":
         dispatch(customerPhoneData(optionInputMem));
-
         break;
       case "email":
         dispatch(customerEmailData(optionInputMem));
-
+        break;
+      case "pon":
+        dispatch(customerPonData(optionInputMem));
+        break;
+      case "accountNumber":
+        dispatch(customerAccNumData(optionInputMem));
         break;
       default:
         alert(`We have run into an Error`);
@@ -82,6 +86,10 @@ function SearchBar() {
                 ? `(xxx) xxx-xxxx`
                 : optionType === "email"
                 ? `example@example.com`
+                : optionType === "pon"
+                ? "PON..."
+                : optionType === "accountNumber"
+                ? "Account Number..."
                 : "Street Name..."
             }
             value={optionInputMem}
@@ -101,9 +109,20 @@ function SearchBar() {
           <option value="email" stlye={{ padding: "3px" }}>
             Email
           </option>
+          <option value="pon" stlye={{ padding: "3px" }}>
+            Pon
+          </option>
+          <option value="accountNumber" stlye={{ padding: "3px" }}>
+            Account Number
+          </option>
         </select>
         <button onClick={searchHandler}>Search</button>
       </form>
+      <h3>
+        {records.length > 0
+          ? `${records.length} Records have been found.`
+          : `No Records`}
+      </h3>
     </div>
   );
 }

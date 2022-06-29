@@ -8,7 +8,7 @@ function App() {
   const uploadStatus = useSelector(
     state => state.updatedInfo.loadStatus.updatedStatus
   );
-  console.log(uploadStatus);
+  // console.log(uploadStatus);
   useEffect(() => {
     if (uploadStatus === "Loaded") {
       alert("Your data has successfully been uploaded!");

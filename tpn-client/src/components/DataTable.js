@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "antd";
-// import { ColumnsType } from "antd/lib/table";
 import { useDispatch, useSelector } from "react-redux";
 import { editDataHandler } from "../redux/ducks/searchCustomerInfo";
 import { customerUpdateData } from "../redux/ducks/getCustomerList";
@@ -9,17 +8,11 @@ function DataTable() {
   const data = useSelector(state => state.customerInfo.data);
   const dispatch = useDispatch();
   function submitHandler() {
-    // dispatch(testUpdate(data));
     dispatch(customerUpdateData(data));
   }
   return (
     <div className="DataTable" style={{ padding: "4%" }}>
-      <Table
-        dataSource={[...data]}
-        scroll={{ x: 6500 }}
-        bordered
-        rowKey={`uuid`}
-      >
+      <Table dataSource={data} scroll={{ x: 6500 }} bordered rowKey={`uuid`}>
         <Table.Column
           title="First Name"
           dataIndex="First Name"
@@ -27,7 +20,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["First Name"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -50,7 +43,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Last Name"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -75,7 +68,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Email"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -97,7 +90,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Phone Number"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -112,7 +105,7 @@ function DataTable() {
           }}
         />
         <Table.Column
-          title="City of Pharr or North Alamo Water Utilities Account Number"
+          title="Utilities Account Number"
           dataIndex="City of Pharr or North Alamo Water Utilities Account Number"
           width={450}
           render={(text, b, index) => {
@@ -121,7 +114,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index][str]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -148,7 +141,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Owner First Name"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -170,7 +163,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Owner Last Name"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -192,7 +185,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Property Owner Phone"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -214,7 +207,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Street Address"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -236,7 +229,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Street Address Line 2"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -269,7 +262,7 @@ function DataTable() {
             return data[index]["What part of Pharr do you live in?"] ===
               `North Pharr (Phase V)` ? (
               <select
-                value={data[index]["What part of Pharr do you live in?"]}
+                value={content}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -287,7 +280,7 @@ function DataTable() {
             ) : data[index]["What part of Pharr do you live in?"] ===
               `Central Pharr (Phase IV)` ? (
               <select
-                value={data[index]["What part of Pharr do you live in?"]}
+                value={content}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -304,7 +297,7 @@ function DataTable() {
               </select>
             ) : (
               <select
-                value={data[index]["What part of Pharr do you Live in?"]}
+                value={content}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -340,7 +333,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Utility Account Holder"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -362,7 +355,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["PON"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -379,12 +372,17 @@ function DataTable() {
         <Table.Column
           title="Install Date"
           dataIndex="Install Date"
-          width={200}
+          width={250}
           render={(text, b, index) => {
             return (
               <input
+                type="date"
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Install Date"]}
+                value={
+                  text && text !== "null"
+                    ? `${text.split("T")[0]}`
+                    : "1900-01-01"
+                }
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -407,7 +405,7 @@ function DataTable() {
               !data[index]["Router Type"] ||
               data[index]["Router Type"] === "N/A" ? (
               <select
-                value={data[index]["Router Type"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -424,9 +422,9 @@ function DataTable() {
                 <option value="Upgraded U6">Upgraded U6</option>
                 <option value="Upgraded U6 Mesh">Upgraded U6 Mesh</option>
               </select>
-            ) : data[index]["Router Type"] === "Standard U4" ? (
+            ) : text === "Standard U4" ? (
               <select
-                value={data[index]["Router Type"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -443,9 +441,9 @@ function DataTable() {
                 <option value="Upgraded U6 Mesh">Upgraded U6 Mesh</option>
                 <option value="N/A">N/A</option>
               </select>
-            ) : data[index]["Router Type"] === "Standard U4 Mesh" ? (
+            ) : text === "Standard U4 Mesh" ? (
               <select
-                value={data[index]["Router Type"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -462,9 +460,9 @@ function DataTable() {
                 <option value="Upgraded U6 Mesh">Upgraded U6 Mesh</option>
                 <option value="N/A">N/A</option>
               </select>
-            ) : data[index]["Router Type"] === "Upgraded U6" ? (
+            ) : text === "Upgraded U6" ? (
               <select
-                value={data[index]["Router Type"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -483,7 +481,7 @@ function DataTable() {
               </select>
             ) : (
               <select
-                value={data[index]["Router Type"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -511,7 +509,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Mesh Amount"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -526,42 +524,149 @@ function DataTable() {
           }}
         />
         <Table.Column
+          title="Hardware Provisioned"
+          width={200}
+          dataIndex="Hardware Provisioned"
+          render={(text, b, index) => {
+            return text ? (
+              <select
+                value={text}
+                onChange={e =>
+                  dispatch(
+                    editDataHandler({
+                      index: index,
+                      stringData: "Hardware Provisioned",
+                      data: e.target.value === "Completed" ? true : false,
+                    })
+                  )
+                }
+              >
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+              </select>
+            ) : (
+              <select
+                value={text}
+                onChange={e =>
+                  dispatch(
+                    editDataHandler({
+                      index: index,
+                      stringData: "Hardware Provisioned",
+                      data: e.target.value === "Pending" ? false : true,
+                    })
+                  )
+                }
+              >
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            );
+          }}
+        />
+        <Table.Column
+          title="SMX Provisioned"
+          dataIndex="SMX Provisioned"
+          width={200}
+          render={(text, b, index) => {
+            return text ? (
+              <select
+                value={text}
+                onChange={e =>
+                  dispatch(
+                    editDataHandler({
+                      index: index,
+                      stringData: "SMX Provisioned",
+                      data: e.target.value === "Completed" ? true : false,
+                    })
+                  )
+                }
+              >
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+              </select>
+            ) : (
+              <select
+                value={text}
+                onChange={e =>
+                  dispatch(
+                    editDataHandler({
+                      index: index,
+                      stringData: "SMX Provisioned",
+                      data: e.target.value === "Pending" ? false : true,
+                    })
+                  )
+                }
+              >
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            );
+          }}
+        />
+        <Table.Column
+          title="Cloud Support Provisioned"
+          dataIndex="Cloud Support Provisioned"
+          width={300}
+          render={(text, b, index) => {
+            return text ? (
+              <select
+                value={text}
+                onChange={e =>
+                  dispatch(
+                    editDataHandler({
+                      index: index,
+                      stringData: "Cloud Support Provisioned",
+                      data: e.target.value === "Completed" ? true : false,
+                    })
+                  )
+                }
+              >
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+              </select>
+            ) : (
+              <select
+                value={text}
+                onChange={e =>
+                  dispatch(
+                    editDataHandler({
+                      index: index,
+                      stringData: "Cloud Support Provisioned",
+                      data: e.target.value === "Pending" ? false : true,
+                    })
+                  )
+                }
+              >
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            );
+          }}
+        />
+        <Table.Column
           title="Owner Approval"
           dataIndex="Owner Approval"
           width={200}
           render={(text, b, index) => {
-            return data[index]["Owner Approval"] ? (
+            return text !== "Yes" || text !== "No" ? (
               <select
-                value={data[index]["Owner Approval"] ? "Yes" : "No"}
+                value={text ? text : "N/A"}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
                       index: index,
                       stringData: "Owner Approval",
-                      data: e.target.value === "Yes" ? true : false,
+                      data: e.target.value,
                     })
                   )
                 }
               >
+                <option value="N/A">N/A</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             ) : (
-              <select
-                value={data[index]["Owner Approval"] ? "Yes" : "No"}
-                onChange={e =>
-                  dispatch(
-                    editDataHandler({
-                      index: index,
-                      stringData: "Owner Approval",
-                      data: e.target.value === "No" ? false : true,
-                    })
-                  )
-                }
-              >
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-              </select>
+              "Error"
             );
           }}
         />
@@ -570,9 +675,9 @@ function DataTable() {
           dataIndex="Service Status"
           width={200}
           render={(text, b, index) => {
-            return data[index]["Service Status"] ? (
+            return text ? (
               <select
-                value={data[index]["Service Status"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -584,22 +689,22 @@ function DataTable() {
                 }
               >
                 <option value="Active">Active</option>
-                <option value="Disabled">Disabled</option>
+                <option value="Pending">Pending</option>
               </select>
             ) : (
               <select
-                value={data[index]["Service Status"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
                       index: index,
                       stringData: "Service Status",
-                      data: e.target.value === "Disabled" ? false : true,
+                      data: e.target.value === "Pending" ? false : true,
                     })
                   )
                 }
               >
-                <option value="Disabled">Disabled</option>
+                <option value="Pending">Pending</option>
                 <option value="Active">Active</option>
               </select>
             );
@@ -610,9 +715,9 @@ function DataTable() {
           dataIndex="Refund"
           width={200}
           render={(text, b, index) => {
-            return data[index]["Refund"] ? (
+            return text ? (
               <select
-                value={data[index]["Refund"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -628,7 +733,7 @@ function DataTable() {
               </select>
             ) : (
               <select
-                value={data[index]["Refund"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -653,7 +758,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Refund Type"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -676,7 +781,7 @@ function DataTable() {
               <textarea
                 style={{ width: "100%", borderStyle: "none" }}
                 maxLength="1028"
-                value={data[index]["Notes"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -695,9 +800,9 @@ function DataTable() {
           dataIndex="Verified"
           width={200}
           render={(text, b, index) => {
-            return data[index]["Verified"] ? (
+            return text ? (
               <select
-                value={data[index]["Verified"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -713,7 +818,7 @@ function DataTable() {
               </select>
             ) : (
               <select
-                value={data[index]["Verified"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
@@ -738,7 +843,7 @@ function DataTable() {
             return (
               <input
                 style={{ width: "100%", borderStyle: "none" }}
-                value={data[index]["Verified by"]}
+                value={text}
                 onChange={e =>
                   dispatch(
                     editDataHandler({
